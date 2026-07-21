@@ -93,12 +93,12 @@ export default function Dashboard() {
     ctx.beginPath();
     ctx.moveTo(chartLeft, goalY);
     ctx.lineTo(w - 10, goalY);
-    ctx.strokeStyle = '#4ECDC4';
+    ctx.strokeStyle = '#F15BB5';
     ctx.lineWidth = 1.5;
     ctx.setLineDash([5, 5]);
     ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#4ECDC4';
+    ctx.fillStyle = '#F15BB5';
     ctx.fillText('Goal', w - 10, goalY - 8);
 
     days.forEach((val, i) => {
@@ -107,8 +107,8 @@ export default function Dashboard() {
       const y = chartBottom - barH;
 
       const gradient = ctx.createLinearGradient(0, y, 0, chartBottom);
-      gradient.addColorStop(0, '#FF6B6B');
-      gradient.addColorStop(1, '#FFE66D');
+      gradient.addColorStop(0, '#FF7EBC');
+      gradient.addColorStop(1, '#F15BB5');
       
       const barW = Math.max(2, barWidth * 0.8);
 

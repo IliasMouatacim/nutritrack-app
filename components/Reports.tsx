@@ -81,12 +81,12 @@ export default function Reports() {
           ctx.beginPath();
           ctx.moveTo(points[0].x, chartBottom);
           points.forEach(p => ctx.lineTo(p.x, p.y));
-          ctx.lineTo(points[points.length - 1].x, chartBottom);
-          ctx.fill();
-
-          const lineGrad = ctx.createLinearGradient(points[0].x, 0, points[points.length - 1].x, 0);
-          lineGrad.addColorStop(0, '#4ECDC4');
-          lineGrad.addColorStop(1, '#44B0FF');
+          ctx.lineWidth = 3;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          const lineGrad = ctx.createLinearGradient(chartLeft, 0, w - 10, 0);
+          lineGrad.addColorStop(0, '#F15BB5');
+          lineGrad.addColorStop(1, '#9B5DE5');
           ctx.strokeStyle = lineGrad;
           ctx.lineWidth = 2.5;
           ctx.lineJoin = 'round';
@@ -95,13 +95,13 @@ export default function Reports() {
           ctx.stroke();
 
           points.forEach((p, i) => {
-            ctx.fillStyle = '#4ECDC4';
             ctx.beginPath();
+            ctx.fillStyle = '#F15BB5';
             ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
             ctx.fill();
-
-            ctx.fillStyle = '#0a0a1a';
+            
             ctx.beginPath();
+            ctx.fillStyle = '#150511';
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
 
@@ -153,10 +153,10 @@ export default function Reports() {
           ctx.textAlign = 'center';
           ctx.fillText('No macro data yet today', w / 2, h / 2);
         } else {
-          const data = [
+          const macroData = [
             { label: 'Protein', value: totalProtein, color: '#B24BF3' },
-            { label: 'Carbs', value: totalCarbs, color: '#6C63FF' },
-            { label: 'Fat', value: totalFat, color: '#FF6B6B' }
+            { label: 'Carbs', value: totalCarbs, color: '#F15BB5' },
+            { label: 'Fat', value: totalFat, color: '#FF7EBC' }
           ];
 
           const cx = w / 2;
@@ -165,7 +165,7 @@ export default function Reports() {
           const innerRadius = radius * 0.6;
           let startAngle = -Math.PI / 2;
 
-          data.forEach(d => {
+          macroData.forEach(d => {
             const sliceAngle = (d.value / total) * Math.PI * 2;
             const endAngle = startAngle + sliceAngle;
 
@@ -231,11 +231,11 @@ export default function Reports() {
               <span>Protein</span>
             </div>
             <div className="legend-item">
-              <div className="legend-dot" style={{ background: '#6C63FF' }}></div>
+              <div className="legend-dot" style={{ background: '#F15BB5' }}></div>
               <span>Carbs</span>
             </div>
             <div className="legend-item">
-              <div className="legend-dot" style={{ background: '#FF6B6B' }}></div>
+              <div className="legend-dot" style={{ background: '#FF7EBC' }}></div>
               <span>Fat</span>
             </div>
           </div>
