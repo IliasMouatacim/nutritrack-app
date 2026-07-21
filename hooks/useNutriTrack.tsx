@@ -85,7 +85,7 @@ export type NutriTrackContextType = {
 
 const NutriTrackContext = createContext<NutriTrackContextType | undefined>(undefined);
 
-export function NutriTrackProvider({ children }: { children: ReactNode }) {
+export function NutriTrackProvider({ children, userUid }: { children: ReactNode, userUid?: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
   
   const [currentSection, setCurrentSection] = useState('dashboard');
@@ -121,7 +121,8 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
     setIsLoaded(true);
 
     try {
-      const userRef = doc(db, 'users', 'default_user');
+      if (!userUid) return;
+      const userRef = doc(db, 'users', userUid);
       const unsubscribe = onSnapshot(userRef, (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
@@ -144,7 +145,8 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
   const saveState = async (key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
     try {
-      const userRef = doc(db, 'users', 'default_user');
+      if (!userUid) return;
+      const userRef = doc(db, 'users', userUid);
       await setDoc(userRef, { [key]: data }, { merge: true });
     } catch (e) {
       // Silently fail if Firebase is not configured yet
@@ -296,7 +298,8 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
     setCurrentBowl([]);
 
     try {
-      const userRef = doc(db, 'users', 'default_user');
+      if (!userUid) return;
+      const userRef = doc(db, 'users', userUid);
       await setDoc(userRef, {
         nutritrack_meals: {},
         nutritrack_water: {},

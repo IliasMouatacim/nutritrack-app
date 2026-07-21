@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNutriTrack } from '@/hooks/useNutriTrack';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 import { showToast } from '@/lib/utils';
 
 export default function Settings() {
@@ -156,11 +158,22 @@ export default function Settings() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <section className="page-section active">
       <div className="section-header">
         <h2>Settings</h2>
-        <p className="subtitle">Customize your daily goals and preferences</p>
+        <p className="subtitle">Configure your goals and preferences</p>
+        <button onClick={handleLogout} className="btn" style={{ background: 'rgba(255, 107, 107, 0.1)', color: 'var(--accent-coral)', marginTop: '1rem' }}>
+          Sign Out
+        </button>
       </div>
 
       <div className="settings-grid">
