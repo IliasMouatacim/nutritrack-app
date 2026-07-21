@@ -8,8 +8,6 @@ export default function Dashboard() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  if (currentSection !== 'dashboard') return null;
-
   const dateKey = getDateKey();
   const dayMeals = meals[dateKey] || {};
   const dayWater = waterLog[dateKey] || [];
@@ -132,6 +130,8 @@ export default function Dashboard() {
   }, [currentDate, meals, goals.calories]);
 
   const recentActivity = [...activityLog].reverse().slice(0, 5);
+
+  if (currentSection !== 'dashboard') return null;
 
   return (
     <section className="page-section active">
