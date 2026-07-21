@@ -256,8 +256,6 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
     setCurrentBowl([]);
   }, [currentDate, currentMealTab]);
 
-  if (!isLoaded) return null; // Wait for localStorage to avoid hydration mismatch
-
   return (
     <NutriTrackContext.Provider value={{
       currentSection, setCurrentSection,
