@@ -27,7 +27,7 @@ export default function Reports() {
 
         const days: number[] = [];
         const dayLabels: string[] = [];
-        for (let i = 6; i >= 0; i--) {
+        for (let i = 29; i >= 0; i--) {
           const d = new Date(currentDate);
           d.setDate(d.getDate() - i);
           const key = getDateKey(d);
@@ -67,7 +67,7 @@ export default function Reports() {
         ctx.setLineDash([]);
 
         const points = days.map((val, i) => {
-          const barWidth = (w - 80) / 7;
+          const barWidth = (w - 80) / 30;
           const x = chartLeft + i * barWidth + barWidth / 2;
           const y = chartTop + chartHeight * (1 - val / maxVal);
           return { x, y };
@@ -105,12 +105,14 @@ export default function Reports() {
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.fillStyle = 'rgba(255,255,255,0.4)';
-            ctx.font = '10px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText(dayLabels[i], p.x, chartBottom + 16);
+            if (i % 5 === 0 || i === days.length - 1) {
+              ctx.fillStyle = 'rgba(255,255,255,0.4)';
+              ctx.font = '10px Inter';
+              ctx.textAlign = 'center';
+              ctx.fillText(dayLabels[i], p.x, chartBottom + 16);
+            }
 
-            if (days[i] > 0) {
+            if (days[i] > 0 && points.length < 15) {
               ctx.fillStyle = 'rgba(255,255,255,0.6)';
               ctx.fillText((Math.round(days[i] * 10) / 10).toString(), p.x, p.y - 10);
             }
@@ -204,7 +206,7 @@ export default function Reports() {
 
       <div className="reports-grid">
         <div className="chart-card" style={{ gridColumn: '1 / -1' }}>
-          <h3>💧 Water Intake (7 Days)</h3>
+          <h3>💧 Water Intake (30 Days)</h3>
           <canvas className="chart-canvas" id="water-chart" ref={waterCanvasRef}></canvas>
           <div className="chart-legend">
             <div className="legend-item">

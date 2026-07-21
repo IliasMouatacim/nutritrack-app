@@ -11,6 +11,15 @@ export type GoalState = {
   fat: number;
 };
 
+export type UserInfo = {
+  gender: string;
+  age: string;
+  weight: string;
+  height: string;
+  activity: string;
+  goal: string;
+};
+
 export type FoodItem = {
   id: number;
   name: string;
@@ -50,6 +59,8 @@ export type NutriTrackContextType = {
   goals: GoalState;
   setGoals: (g: GoalState) => void;
   saveGoals: (g: GoalState) => void;
+  userInfo: UserInfo;
+  saveUserInfo: (info: UserInfo) => void;
   meals: Record<string, Record<string, FoodItem[]>>;
   groceries: FoodItem[];
   waterLog: Record<string, WaterLogEntry[]>;
@@ -80,6 +91,7 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
   const [currentMealTab, setCurrentMealTab] = useState('breakfast');
   
   const [goals, setGoals] = useState<GoalState>({ calories: 2000, water: 8, protein: 150, carbs: 250, fat: 65 });
+  const [userInfo, setUserInfo] = useState<UserInfo>({ gender: 'male', age: '', weight: '', height: '', activity: '1.55', goal: 'maintain' });
   const [meals, setMeals] = useState<Record<string, Record<string, FoodItem[]>>>({});
   const [groceries, setGroceries] = useState<FoodItem[]>([]);
   const [waterLog, setWaterLog] = useState<Record<string, WaterLogEntry[]>>({});
@@ -95,6 +107,7 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
         return item ? JSON.parse(item) : fallback;
       };
       setGoals(load('nutritrack_goals', { calories: 2000, water: 8, protein: 150, carbs: 250, fat: 65 }));
+      setUserInfo(load('nutritrack_user_info', { gender: 'male', age: '', weight: '', height: '', activity: '1.55', goal: 'maintain' }));
       setMeals(load('nutritrack_meals', {}));
       setGroceries(load('nutritrack_groceries', []));
       setWaterLog(load('nutritrack_water', {}));
@@ -132,6 +145,11 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
   const saveGoals = (g: GoalState) => {
     setGoals(g);
     saveState('nutritrack_goals', g);
+  };
+
+  const saveUserInfo = (info: UserInfo) => {
+    setUserInfo(info);
+    saveState('nutritrack_user_info', info);
   };
 
   const addFoodToBowl = (food: FoodItem, amount: number) => {
@@ -262,6 +280,7 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
       currentDate, setCurrentDate,
       currentMealTab, setCurrentMealTab,
       goals, setGoals, saveGoals,
+      userInfo, saveUserInfo,
       meals, groceries, waterLog, activityLog, customFoods, currentBowl,
       getDateKey, addActivity, addFoodToBowl, removeBowlItem, clearBowl, logBowlToMeal,
       removeMealItem, addWater, addGrocery, removeGroceryItem, addCustomFood, resetAllData

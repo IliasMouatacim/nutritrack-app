@@ -53,7 +53,7 @@ export default function Dashboard() {
 
     const days: number[] = [];
     const dayLabels: string[] = [];
-    for (let i = 6; i >= 0; i--) {
+    for (let i = 29; i >= 0; i--) {
       const d = new Date(currentDate);
       d.setDate(d.getDate() - i);
       const k = getDateKey(d);
@@ -67,7 +67,7 @@ export default function Dashboard() {
     }
 
     const maxVal = Math.max(...days, goals.calories) * 1.15;
-    const barWidth = (w - 80) / 7;
+    const barWidth = (w - 80) / 30;
     const chartLeft = 50;
     const chartBottom = h - 30;
     const chartTop = 20;
@@ -110,22 +110,26 @@ export default function Dashboard() {
       gradient.addColorStop(0, '#FF6B6B');
       gradient.addColorStop(1, '#FFE66D');
       
+      const barW = Math.max(2, barWidth * 0.8);
+
       ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.roundRect(x, y, barWidth - 15, barH, [4, 4, 0, 0]);
+      ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
       ctx.fill();
 
-      if (val > 0) {
+      if (val > 0 && barWidth > 25) {
         ctx.fillStyle = 'rgba(255,255,255,0.8)';
         ctx.font = 'bold 10px Inter';
         ctx.textAlign = 'center';
-        ctx.fillText(Math.round(val).toString(), x + (barWidth - 15) / 2, y - 5);
+        ctx.fillText(Math.round(val).toString(), x + barW / 2, y - 5);
       }
 
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
-      ctx.font = '10px Inter';
-      ctx.textAlign = 'center';
-      ctx.fillText(dayLabels[i], x + (barWidth - 15) / 2, chartBottom + 20);
+      if (i % 5 === 0 || i === days.length - 1) {
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '10px Inter';
+        ctx.textAlign = 'center';
+        ctx.fillText(dayLabels[i], x + barW / 2, chartBottom + 20);
+      }
     });
   }, [currentDate, meals, goals.calories]);
 
@@ -141,7 +145,7 @@ export default function Dashboard() {
       </div>
 
       <div className="chart-card" style={{ marginBottom: 'var(--space-xl)' }}>
-        <h3>🔥 Calorie Intake (7 Days)</h3>
+        <h3>🔥 Calorie Intake (30 Days)</h3>
         <canvas className="chart-canvas" id="calorie-chart" ref={canvasRef}></canvas>
         <div className="chart-legend">
           <div className="legend-item">

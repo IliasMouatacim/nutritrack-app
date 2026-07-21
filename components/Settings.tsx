@@ -5,14 +5,14 @@ import { useNutriTrack } from '@/hooks/useNutriTrack';
 import { showToast } from '@/lib/utils';
 
 export default function Settings() {
-  const { currentSection, goals, saveGoals, addCustomFood, resetAllData } = useNutriTrack();
+  const { currentSection, goals, saveGoals, userInfo, saveUserInfo, addCustomFood, resetAllData } = useNutriTrack();
 
-  const [calcGender, setCalcGender] = useState('male');
-  const [calcAge, setCalcAge] = useState('');
-  const [calcWeight, setCalcWeight] = useState('');
-  const [calcHeight, setCalcHeight] = useState('');
-  const [calcActivity, setCalcActivity] = useState('1.55');
-  const [calcGoal, setCalcGoal] = useState('maintain');
+  const [calcGender, setCalcGender] = useState(userInfo.gender);
+  const [calcAge, setCalcAge] = useState(userInfo.age);
+  const [calcWeight, setCalcWeight] = useState(userInfo.weight);
+  const [calcHeight, setCalcHeight] = useState(userInfo.height);
+  const [calcActivity, setCalcActivity] = useState(userInfo.activity);
+  const [calcGoal, setCalcGoal] = useState(userInfo.goal);
 
   const [setCalories, setSetCalories] = useState(goals.calories.toString());
   const [setWater, setSetWater] = useState(goals.water.toString());
@@ -33,6 +33,15 @@ export default function Settings() {
     setSetCarbs(goals.carbs.toString());
     setSetFat(goals.fat.toString());
   }, [goals]);
+
+  useEffect(() => {
+    setCalcGender(userInfo.gender);
+    setCalcAge(userInfo.age);
+    setCalcWeight(userInfo.weight);
+    setCalcHeight(userInfo.height);
+    setCalcActivity(userInfo.activity);
+    setCalcGoal(userInfo.goal);
+  }, [userInfo]);
 
   if (currentSection !== 'settings') return null;
 
@@ -82,7 +91,26 @@ export default function Settings() {
     setSetCarbs(carbs.toString());
     setSetWater(water.toString());
 
-    showToast('✨', 'Goals calculated successfully!');
+    // Save user info
+    saveUserInfo({
+      gender: calcGender,
+      age: calcAge,
+      weight: calcWeight,
+      height: calcHeight,
+      activity: calcActivity,
+      goal: calcGoal
+    });
+
+    // Also auto-save goals
+    saveGoals({
+      calories: Math.round(tdee),
+      water: water,
+      protein: protein,
+      carbs: carbs,
+      fat: fat
+    });
+
+    showToast('✨', 'Goals calculated & saved successfully!');
   };
 
   const handleSaveGoals = () => {
