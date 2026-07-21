@@ -8,15 +8,15 @@
 /* ─── CSS Custom Properties ─── */
 :root {
   /* Core palette */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #FDF4F8;
-  --bg-tertiary: #FAE9F0;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #FFF4F8;
-  --bg-glass: rgba(255, 255, 255, 0.8);
-  --bg-glass-strong: rgba(255, 255, 255, 0.95);
-  --bg-input: #FFF4F8;
-  --bg-input-focus: #FFFFFF;
+  --bg-primary: #FDF1F6; /* Very light pink background */
+  --bg-secondary: #FCE4EC; /* Soft pink */
+  --bg-tertiary: #F8BBD0; /* Deeper pink */
+  --bg-card: #FFD1E8; /* Pink cards */
+  --bg-card-hover: #FFC0E0;
+  --bg-glass: rgba(255, 209, 232, 0.8);
+  --bg-glass-strong: rgba(255, 209, 232, 0.95);
+  --bg-input: #F8BBD0;
+  --bg-input-focus: #FFD1E8;
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #F15BB5, #9B5DE5);
@@ -36,15 +36,15 @@
   --accent-green: #F15BB5;
 
   /* Text colors */
-  --text-primary: #2D1B28;
-  --text-secondary: rgba(45, 27, 40, 0.65);
-  --text-tertiary: rgba(45, 27, 40, 0.4);
-  --text-accent: #F15BB5;
+  --text-primary: #4A148C; /* Deep purple text */
+  --text-secondary: rgba(74, 20, 140, 0.7);
+  --text-tertiary: rgba(74, 20, 140, 0.5);
+  --text-accent: #9C27B0; /* Purple accent */
 
   /* Borders */
-  --border-subtle: rgba(241, 91, 181, 0.1);
-  --border-medium: rgba(241, 91, 181, 0.2);
-  --border-accent: rgba(241, 91, 181, 0.4);
+  --border-subtle: rgba(156, 39, 176, 0.15); /* Purple subtle */
+  --border-medium: rgba(156, 39, 176, 0.25);
+  --border-accent: rgba(156, 39, 176, 0.5);
 
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(241, 91, 181, 0.08);
