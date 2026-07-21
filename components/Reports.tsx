@@ -43,7 +43,7 @@ export default function Reports() {
         const chartTop = 20;
         const chartHeight = chartBottom - chartTop;
 
-        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.strokeStyle = 'rgba(0,0,0,0.05)';
         for (let i = 0; i <= 4; i++) {
           const y = chartTop + (chartHeight / 4) * i;
           ctx.beginPath();
@@ -51,14 +51,14 @@ export default function Reports() {
           ctx.lineTo(w - 10, y);
           ctx.stroke();
 
-          ctx.fillStyle = 'rgba(255,255,255,0.3)';
+          ctx.fillStyle = 'rgba(0,0,0,0.6)';
           ctx.font = '10px Inter';
           ctx.textAlign = 'right';
           ctx.fillText((Math.round((maxVal - (maxVal / 4) * i) * 10) / 10).toString(), chartLeft - 8, y + 4);
         }
 
         const goalY = chartTop + chartHeight * (1 - goals.water / maxVal);
-        ctx.strokeStyle = 'rgba(108, 99, 255, 0.4)';
+        ctx.strokeStyle = 'rgba(241, 91, 181, 0.4)';
         ctx.setLineDash([5, 5]);
         ctx.beginPath();
         ctx.moveTo(chartLeft, goalY);
@@ -101,19 +101,19 @@ export default function Reports() {
             ctx.fill();
             
             ctx.beginPath();
-            ctx.fillStyle = '#150511';
+            ctx.fillStyle = '#FFFFFF';
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
 
             if (i % 5 === 0 || i === days.length - 1) {
-              ctx.fillStyle = 'rgba(255,255,255,0.4)';
+              ctx.fillStyle = 'rgba(0,0,0,0.5)';
               ctx.font = '10px Inter';
               ctx.textAlign = 'center';
               ctx.fillText(dayLabels[i], p.x, chartBottom + 16);
             }
 
             if (days[i] > 0 && points.length < 15) {
-              ctx.fillStyle = 'rgba(255,255,255,0.6)';
+              ctx.fillStyle = 'rgba(0,0,0,0.8)';
               ctx.fillText((Math.round(days[i] * 10) / 10).toString(), p.x, p.y - 10);
             }
           });
@@ -148,7 +148,7 @@ export default function Reports() {
 
         const total = totalProtein + totalCarbs + totalFat;
         if (total === 0) {
-          ctx.fillStyle = 'rgba(255,255,255,0.3)';
+          ctx.fillStyle = 'rgba(0,0,0,0.4)';
           ctx.font = '13px Inter';
           ctx.textAlign = 'center';
           ctx.fillText('No macro data yet today', w / 2, h / 2);

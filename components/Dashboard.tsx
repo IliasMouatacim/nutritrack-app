@@ -73,7 +73,7 @@ export default function Dashboard() {
     const chartTop = 20;
     const chartHeight = chartBottom - chartTop;
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.05)';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
       const y = chartTop + (chartHeight / 4) * i;
@@ -82,7 +82,7 @@ export default function Dashboard() {
       ctx.lineTo(w - 10, y);
       ctx.stroke();
 
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillStyle = 'rgba(0,0,0,0.6)';
       ctx.font = '10px Inter';
       ctx.textAlign = 'right';
       const val = Math.round(maxVal - (maxVal / 4) * i);
@@ -118,14 +118,14 @@ export default function Dashboard() {
       ctx.fill();
 
       if (val > 0 && barWidth > 25) {
-        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillStyle = 'rgba(0,0,0,0.8)';
         ctx.font = 'bold 10px Inter';
         ctx.textAlign = 'center';
         ctx.fillText(Math.round(val).toString(), x + barW / 2, y - 5);
       }
 
       if (i % 5 === 0 || i === days.length - 1) {
-        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.font = '10px Inter';
         ctx.textAlign = 'center';
         ctx.fillText(dayLabels[i], x + barW / 2, chartBottom + 20);
