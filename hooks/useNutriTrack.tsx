@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { db } from '@/lib/firebase';
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 // --- Types ---
 export type GoalState = {
@@ -99,7 +101,7 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
   const [customFoods, setCustomFoods] = useState<FoodItem[]>([]);
   const [currentBowl, setCurrentBowl] = useState<FoodItem[]>([]);
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount & listen to Firebase
   useEffect(() => {
     try {
       const load = (key: string, fallback: any) => {
@@ -117,11 +119,36 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
       console.error("Failed to load local storage", e);
     }
     setIsLoaded(true);
+
+    try {
+      const userRef = doc(db, 'users', 'default_user');
+      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.nutritrack_goals) setGoals(data.nutritrack_goals);
+          if (data.nutritrack_user_info) setUserInfo(data.nutritrack_user_info);
+          if (data.nutritrack_meals) setMeals(data.nutritrack_meals);
+          if (data.nutritrack_groceries) setGroceries(data.nutritrack_groceries);
+          if (data.nutritrack_water) setWaterLog(data.nutritrack_water);
+          if (data.nutritrack_activity) setActivityLog(data.nutritrack_activity);
+          if (data.nutritrack_custom_foods) setCustomFoods(data.nutritrack_custom_foods);
+        }
+      });
+      return () => unsubscribe();
+    } catch (e) {
+      console.warn("Firebase sync disabled or failed.", e);
+    }
   }, []);
 
-  // Save to localStorage when state changes
-  const saveState = (key: string, data: any) => {
+  // Save to localStorage and Firebase
+  const saveState = async (key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
+    try {
+      const userRef = doc(db, 'users', 'default_user');
+      await setDoc(userRef, { [key]: data }, { merge: true });
+    } catch (e) {
+      // Silently fail if Firebase is not configured yet
+    }
   };
 
   const getDateKey = (date?: Date) => {
@@ -254,7 +281,7 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const resetAllData = () => {
+  const resetAllData = async () => {
     localStorage.removeItem('nutritrack_meals');
     localStorage.removeItem('nutritrack_water');
     localStorage.removeItem('nutritrack_groceries');
@@ -267,6 +294,17 @@ export function NutriTrackProvider({ children }: { children: ReactNode }) {
     setActivityLog([]);
     setCustomFoods([]);
     setCurrentBowl([]);
+
+    try {
+      const userRef = doc(db, 'users', 'default_user');
+      await setDoc(userRef, {
+        nutritrack_meals: {},
+        nutritrack_water: {},
+        nutritrack_groceries: [],
+        nutritrack_activity: [],
+        nutritrack_custom_foods: []
+      }, { merge: true });
+    } catch (e) {}
   };
 
   // Clear bowl on date or tab change
