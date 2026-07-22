@@ -310,6 +310,26 @@ export function NutriTrackProvider({ children, userUid }: { children: ReactNode,
     } catch (e) {}
   };
 
+  const forceSyncToCloud = async () => {
+    if (!userUid) return false;
+    try {
+      const userRef = doc(db, 'users', userUid);
+      await setDoc(userRef, {
+        nutritrack_goals: goals,
+        nutritrack_user_info: userInfo,
+        nutritrack_meals: meals,
+        nutritrack_groceries: groceries,
+        nutritrack_water: waterLog,
+        nutritrack_activity: activityLog,
+        nutritrack_custom_foods: customFoods
+      }, { merge: true });
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  };
+
   // Clear bowl on date or tab change
   useEffect(() => {
     setCurrentBowl([]);
@@ -324,7 +344,7 @@ export function NutriTrackProvider({ children, userUid }: { children: ReactNode,
       userInfo, saveUserInfo,
       meals, groceries, waterLog, activityLog, customFoods, currentBowl,
       getDateKey, addActivity, addFoodToBowl, removeBowlItem, clearBowl, logBowlToMeal,
-      removeMealItem, addWater, addGrocery, removeGroceryItem, addCustomFood, resetAllData
+      removeMealItem, addWater, addGrocery, removeGroceryItem, addCustomFood, resetAllData, forceSyncToCloud
     }}>
       {children}
     </NutriTrackContext.Provider>

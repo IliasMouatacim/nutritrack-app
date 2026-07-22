@@ -7,7 +7,7 @@ import { signOut } from 'firebase/auth';
 import { showToast } from '@/lib/utils';
 
 export default function Settings() {
-  const { currentSection, goals, saveGoals, userInfo, saveUserInfo, addCustomFood, resetAllData } = useNutriTrack();
+  const { currentSection, goals, saveGoals, userInfo, saveUserInfo, addCustomFood, resetAllData, forceSyncToCloud } = useNutriTrack();
 
   const [calcGender, setCalcGender] = useState(userInfo.gender);
   const [calcAge, setCalcAge] = useState(userInfo.age);
@@ -167,6 +167,15 @@ export default function Settings() {
     }
   };
 
+  const handleForceSync = async () => {
+    const success = await forceSyncToCloud();
+    if (success) {
+      showToast('☁️', 'Local data synced to cloud perfectly!');
+    } else {
+      showToast('⚠️', 'Sync failed. Make sure you are logged in.');
+    }
+  };
+
   return (
     <section className="page-section active">
       <div className="section-header">
@@ -315,6 +324,14 @@ export default function Settings() {
           </div>
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--border-subtle)', margin: '24px 0' }} />
+
+          <h3 style={{ marginBottom: '16px' }}>☁️ Cloud Sync</h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '16px' }}>
+            If you added meals or weight data before logging in, click here to push it to your account so you can see it on your phone.
+          </p>
+          <button className="btn btn-secondary" onClick={handleForceSync} style={{ marginBottom: '24px' }}>
+            ☁️ Sync Local Data to Cloud
+          </button>
 
           <h3 style={{ marginBottom: '16px' }}>🗑️ Data Management</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '16px' }}>
