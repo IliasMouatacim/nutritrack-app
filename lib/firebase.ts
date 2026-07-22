@@ -17,5 +17,13 @@ const app = getApps().length === 0
   : getApp();
 
 export const db = getFirestore(app);
-export const auth = getAuth(app);
+
+let authInstance: ReturnType<typeof getAuth> | null = null;
+try {
+  authInstance = firebaseConfig.apiKey ? getAuth(app) : null;
+} catch (e) {
+  console.warn("Firebase Auth failed to initialize", e);
+}
+
+export const auth = authInstance;
 export const googleProvider = new GoogleAuthProvider();

@@ -159,6 +159,7 @@ export default function Settings() {
   };
 
   const handleLogout = async () => {
+    if (!auth) return;
     try {
       await signOut(auth);
     } catch (e) {

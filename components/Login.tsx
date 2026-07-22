@@ -6,6 +6,10 @@ import { signInWithPopup } from 'firebase/auth';
 
 export default function Login() {
   const handleLogin = async () => {
+    if (!auth) {
+      alert("Firebase is not fully configured yet. Please wait for the deployment to finish with the correct environment variables.");
+      return;
+    }
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
