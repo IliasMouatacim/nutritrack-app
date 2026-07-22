@@ -15,6 +15,7 @@ export default function Settings() {
   const [calcHeight, setCalcHeight] = useState(userInfo.height);
   const [calcActivity, setCalcActivity] = useState(userInfo.activity);
   const [calcGoal, setCalcGoal] = useState(userInfo.goal);
+  const [syncMessage, setSyncMessage] = useState('');
 
   const [setCalories, setSetCalories] = useState(goals.calories.toString());
   const [setWater, setSetWater] = useState(goals.water.toString());
@@ -168,11 +169,12 @@ export default function Settings() {
   };
 
   const handleForceSync = async () => {
+    setSyncMessage('⏳ Syncing to cloud...');
     const success = await forceSyncToCloud();
     if (success) {
-      alert('☁️ Success! Your local data has been successfully pushed to the cloud! Refresh your phone to see it.');
+      setSyncMessage('✅ SUCCESS! Your data is in the cloud. Refresh your phone!');
     } else {
-      alert('⚠️ Sync failed. Make sure you are logged in and connected to the internet.');
+      setSyncMessage('❌ FAILED! Firebase could not connect. Check your API keys.');
     }
   };
 
@@ -329,9 +331,14 @@ export default function Settings() {
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '16px' }}>
             If you added meals or weight data before logging in, click here to push it to your account so you can see it on your phone.
           </p>
-          <button className="btn btn-secondary" onClick={handleForceSync} style={{ marginBottom: '24px' }}>
+          <button className="btn btn-secondary" onClick={handleForceSync} style={{ marginBottom: '12px' }}>
             ☁️ Sync Local Data to Cloud
           </button>
+          {syncMessage && (
+            <div style={{ padding: '12px', background: syncMessage.includes('SUCCESS') ? 'var(--accent-green)' : 'var(--accent-coral)', color: 'white', borderRadius: '8px', marginBottom: '24px', fontWeight: 'bold' }}>
+              {syncMessage}
+            </div>
+          )}
 
           <h3 style={{ marginBottom: '16px' }}>🗑️ Data Management</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '16px' }}>
