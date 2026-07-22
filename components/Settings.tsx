@@ -170,9 +170,9 @@ export default function Settings() {
   const handleForceSync = async () => {
     const success = await forceSyncToCloud();
     if (success) {
-      showToast('☁️', 'Local data synced to cloud perfectly!');
+      alert('☁️ Success! Your local data has been successfully pushed to the cloud! Refresh your phone to see it.');
     } else {
-      showToast('⚠️', 'Sync failed. Make sure you are logged in.');
+      alert('⚠️ Sync failed. Make sure you are logged in and connected to the internet.');
     }
   };
 
