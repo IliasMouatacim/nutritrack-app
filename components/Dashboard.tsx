@@ -43,12 +43,15 @@ export default function Dashboard() {
     if (!ctx) return;
     
     // Scale for high DPI
-    canvas.width = canvas.offsetWidth * 2;
-    canvas.height = canvas.offsetHeight * 2;
+    const width = canvas.offsetWidth || canvas.parentElement?.offsetWidth || 800;
+    const height = canvas.offsetHeight || 220;
+    
+    canvas.width = width * 2;
+    canvas.height = height * 2;
     ctx.scale(2, 2);
 
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
+    const w = width;
+    const h = height;
     ctx.clearRect(0, 0, w, h);
 
     const days: number[] = [];
@@ -60,7 +63,7 @@ export default function Dashboard() {
       const dMeals = meals[k] || {};
       let cals = 0;
       Object.values(dMeals).forEach(items => {
-        items.forEach(item => cals += item.calories || 0);
+        items.forEach(item => cals += Number(item.calories) || 0);
       });
       days.push(cals);
       dayLabels.push(d.toLocaleDateString('en-US', { weekday: 'short' }));
@@ -90,16 +93,18 @@ export default function Dashboard() {
     }
 
     const goalY = chartBottom - (goals.calories / maxVal) * chartHeight;
-    ctx.beginPath();
-    ctx.moveTo(chartLeft, goalY);
-    ctx.lineTo(w - 10, goalY);
-    ctx.strokeStyle = '#F15BB5';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([5, 5]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#F15BB5';
-    ctx.fillText('Goal', w - 10, goalY - 8);
+    if (!isNaN(goalY)) {
+      ctx.beginPath();
+      ctx.moveTo(chartLeft, goalY);
+      ctx.lineTo(w - 10, goalY);
+      ctx.strokeStyle = '#F15BB5';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#F15BB5';
+      ctx.fillText('Goal', w - 10, goalY - 8);
+    }
 
     days.forEach((val, i) => {
       const barH = (val / maxVal) * chartHeight;

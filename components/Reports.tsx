@@ -17,12 +17,14 @@ export default function Reports() {
     if (wCanvas) {
       const ctx = wCanvas.getContext('2d');
       if (ctx) {
-        wCanvas.width = wCanvas.offsetWidth * 2;
-        wCanvas.height = wCanvas.offsetHeight * 2;
+        const width = wCanvas.offsetWidth || wCanvas.parentElement?.offsetWidth || 800;
+        const height = wCanvas.offsetHeight || 220;
+        wCanvas.width = width * 2;
+        wCanvas.height = height * 2;
         ctx.scale(2, 2);
 
-        const w = wCanvas.offsetWidth;
-        const h = wCanvas.offsetHeight;
+        const w = width;
+        const h = height;
         ctx.clearRect(0, 0, w, h);
 
         const days: number[] = [];
@@ -126,12 +128,14 @@ export default function Reports() {
     if (mCanvas) {
       const ctx = mCanvas.getContext('2d');
       if (ctx) {
-        mCanvas.width = mCanvas.offsetWidth * 2;
-        mCanvas.height = mCanvas.offsetHeight * 2;
+        const width = mCanvas.offsetWidth || mCanvas.parentElement?.offsetWidth || 800;
+        const height = mCanvas.offsetHeight || 220;
+        mCanvas.width = width * 2;
+        mCanvas.height = height * 2;
         ctx.scale(2, 2);
 
-        const w = mCanvas.offsetWidth;
-        const h = mCanvas.offsetHeight;
+        const w = width;
+        const h = height;
         ctx.clearRect(0, 0, w, h);
 
         const dateKey = getDateKey();
