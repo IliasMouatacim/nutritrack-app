@@ -8,9 +8,9 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed", error);
-      alert("Failed to log in with Google. Please try again.");
+      alert(`Failed to log in with Google: ${error.message}\n\nPlease take a screenshot of this error!`);
     }
   };
 
