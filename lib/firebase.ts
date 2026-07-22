@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  apiKey: "AIzaSyDRuUUAdEKzCZm6CWGSUu55UXolrUeb0-A",
+  authDomain: "nutriapp-b5ff8.firebaseapp.com",
+  projectId: "nutriapp-b5ff8",
+  storageBucket: "nutriapp-b5ff8.appspot.com",
+  messagingSenderId: "623272399722",
+  appId: "1:623272399722:web:f13e7346744d7de4018b13"
 };
 
 // Initialize Firebase only if it hasn't been initialized already and we have a config
